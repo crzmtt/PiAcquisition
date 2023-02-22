@@ -69,7 +69,7 @@ def analysis():
     allgit['longitude'] = allgit['longitude'].astype('float')
     allgit['seconds'] = allgit['TIME_sec'] - allgit['TIME_sec'].values[0]
     print(allgit.to_string())
-    st.title('Acquisizione del ' + data)
+    st.title(data + ' acquisition')
 
     vmax = allgit['VVehicle'].max()
 
