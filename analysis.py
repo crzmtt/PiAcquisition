@@ -13,15 +13,13 @@ def analysis():
     # select data among available
     dates = list(set([datefromfn(f) for f in fnmatch.filter(os.listdir('Out'), '*.csv')]))
     # remove faulty dates from dates
-    print(dates)
-    dates.remove('20230109')
-    print(dates)
+    #dates.remove('20230109')
     if len(dates) > 0:
         data=st.sidebar.selectbox('Select date to analyze',dates)
     else:
         st.write('No date available for analysis')
-        stop()
-    #data='20230109'
+        quit()
+    #data='20230#109'
     # streamlit stuff
     token=''
 
