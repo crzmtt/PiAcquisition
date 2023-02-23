@@ -19,7 +19,7 @@ def analysis():
     else:
         st.write('No date available for analysis')
         quit()
-    st.sidebar.selectbox('Select minimum number of satellites', [4,5],index=1)
+    nsat = st.sidebar.selectbox('Select minimum number of satellites', [4,5],index=1)
     #data='20230#109'
     # streamlit stuff
     token=''
@@ -49,7 +49,7 @@ def analysis():
 
     # Start plotting in streamlit
     #allgit = all.dropna(subset=['latitude','longitude'])
-    allgit = all[all['satnum']>=4].copy(deep=True)
+    allgit = all[all['satnum']>=nsat].copy(deep=True)
     #allgit = all.copy(deep=True)
     allgit['SN'] = np.where(allgit['latitude'] > 0, 'N', 'S')
     allgit['EW'] = np.where(allgit['longitude'] > 0, 'E', 'W')
