@@ -19,7 +19,7 @@ def analysis():
     else:
         st.write('No date available for analysis')
         quit()
-    nsat = st.sidebar.selectbox('Select minimum number of satellites', [3,4,5],index=2)
+    nsat = st.sidebar.selectbox('Select minimum number of satellites', [0,2,3,4,5],index=4)
     #data='20230#109'
     # streamlit stuff
     token=''
@@ -41,7 +41,7 @@ def analysis():
     #fgps = fgps[fgps['satnum']>4]
 
     # Merge asoft
-    all = pd.merge_asof(fcan, fgps, on='TIME_sec',direction='nearest')
+    all = pd.merge_asof(fcan, fgps, on='TIME_sec',direction='nearest',tolerance=1)
     assert isinstance(all, object)
 
     #all['latitude'] = all['latitude'] / 100.
@@ -49,7 +49,12 @@ def analysis():
 
     # Start plotting in streamlit
     #allgit = all.dropna(subset=['latitude','longitude'])
-    allgit = all[all['satnum']>=nsat].copy(deep=True)
+    if nsat==0:
+        allgitp = all.copy(deep=True)
+        allgit = all[all['satnum']>=2].copy(deep=True)
+        allgitp['seconds'] = allgitp['TIME_sec'] - allgitp['TIME_sec'].values[0]
+    else:
+        allgit = all[all['satnum']>=nsat].copy(deep=True)
     #allgit = all.copy(deep=True)
     allgit['SN'] = np.where(allgit['latitude'] > 0, 'N', 'S')
     allgit['EW'] = np.where(allgit['longitude'] > 0, 'E', 'W')
@@ -78,8 +83,12 @@ def analysis():
     col1, col2 = st.tabs(['Time series','Map'])
     with col1:
         pvars0 = ['VVehicle']
-        pvars = st.multiselect('Select variables to plot',allgit.columns,default=pvars0)
-        fig = px.line(allgit,
+        if nsat == 0:
+            allgitv = allgitp
+        else:
+            allgitv = allgit
+        pvars = st.multiselect('Select variables to plot',allgitv.columns,default=pvars0)
+        fig = px.line(allgitv,
             x="seconds",
             y=pvars,
         )
