@@ -19,7 +19,7 @@ def analysis():
     else:
         st.write('No date available for analysis')
         quit()
-    nsat = st.sidebar.selectbox('Select minimum number of satellites', [4,5],index=1)
+    nsat = st.sidebar.selectbox('Select minimum number of satellites', [3,4,5],index=2)
     #data='20230#109'
     # streamlit stuff
     token=''
