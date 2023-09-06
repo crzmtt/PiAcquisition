@@ -4,4 +4,3 @@ numpy==1.23.2
 dataprep==0.4.5
 pydeck==0.7.1
 plotly==5.10.0
-python==3.10
