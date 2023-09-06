@@ -4,6 +4,7 @@ from pathlib import Path
 import streamlit as st
 import os, fnmatch
 import numpy as np
+from dask.dataframe import from_pandas
 from dataprep.clean import clean_lat_long
 import pydeck as pdk
 import matplotlib.pyplot as plt
@@ -71,7 +72,8 @@ def analysis():
     allgit['coord'] = allgit.apply(lambda x: writecoord(x['lontemp'],x['EW'],x['lattemp'],x['SN']), axis=1)
     allgit.drop(columns={'latitude','longitude'},inplace=True)
     #print(allgit.to_string())
-    allgit = clean_lat_long(allgit, "coord", split=True)
+    allgitd = from_pandas(allgit, npartitions=2)
+    allgit = clean_lat_long(allgitd, "coord", split=True)
     print(allgit.columns)
     #allgit = pd.merge(allgit,allgitt,on='coord')
     allgit['latitude'] = allgit['latitude'].astype('float')
