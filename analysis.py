@@ -13,7 +13,10 @@ def analysis():
     # select data among available
     dates = list(set([datefromfn(f) for f in fnmatch.filter(os.listdir('Out'), '*.csv')]))
     # remove faulty dates from dates
-    #dates.remove('20230109')
+    try:
+        dates.remove('20230109')
+    except:
+        print('Date 20230109 is not present, not removing it')
     if len(dates) > 0:
         data=st.sidebar.selectbox('Select date to analyze',dates)
     else:
@@ -31,9 +34,9 @@ def analysis():
     fcan = pd.read_csv(Path(outdir, 'pcan'+data+'.csv'), sep=';')
     fbt  = pd.read_csv(Path(outdir, 'bt'+data+'.csv'), sep=';')
 
-    print(fgps)
-    print(fcan)
-    print(fbt)
+    #print(fgps)
+    #print(fcan)
+    #print(fbt)
 
     fcan.rename(columns={'Time':'TIME_sec'},inplace=True)
     fcan = fcan.dropna(subset=['TIME_sec'])
@@ -74,7 +77,7 @@ def analysis():
     allgit['latitude'] = allgit['latitude'].astype('float')
     allgit['longitude'] = allgit['longitude'].astype('float')
     allgit['seconds'] = allgit['TIME_sec'] - allgit['TIME_sec'].values[0]
-    print(allgit.to_string())
+    #print(allgit.to_string())
     st.title(data + ' acquisition')
 
     vmax = allgit['VVehicle'].max()
