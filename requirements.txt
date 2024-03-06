@@ -1,0 +1,7 @@
+pandas==2.2.1
+streamlit==1.31.1
+numpy==1.26.4
+dataprep==0.4.5
+pydeck==0.8.1b
+plotly==5.19.0
+dask==2024.02.1
