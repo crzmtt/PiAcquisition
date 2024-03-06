@@ -1,4 +1,4 @@
-pandas==2.2.1
+pandas==1.5.3
 streamlit==1.31.1
 numpy==1.26.4
 dataprep==0.4.5
